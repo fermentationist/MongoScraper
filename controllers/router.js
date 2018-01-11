@@ -1,6 +1,8 @@
 const routes = (function(){
 	const express = require("express");
+	const dbConnection = require("../config/connection.js");
 	const path = require("path");
+
 
 	const router = express.Router();
 

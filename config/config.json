@@ -1,0 +1,8 @@
+{
+  "development": {
+    "use_env_variable": "LOCAL_MONGODB_CREDENTIALS"
+  },
+  "production": {
+    "use_env_variable": "MONGOLAB_URI"
+  }
+}
