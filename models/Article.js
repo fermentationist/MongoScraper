@@ -1,5 +1,6 @@
 const Article = (function(){
 	const mongoose = require("mongoose");
+	const Note = require("./Note.js");
 
 	const articleSchema = new mongoose.Schema({
 		title: {
@@ -15,7 +16,11 @@ const Article = (function(){
 			type: String,
 			required: true
 		},
-		photo: {
+		notes: {
+			type: [Note.schema]
+		},
+
+		photoURL: {
 			type: String
 		}
 
@@ -23,7 +28,10 @@ const Article = (function(){
 
 	const articleModel = mongoose.model("Article", articleSchema);
 
-	return articleModel;
+	return {
+		model: articleModel,
+		schema: articleSchema
+	}
 
 })();
 

@@ -4,6 +4,7 @@ const Note = (function(){
 	const noteSchema = new mongoose.Schema({
 		body: {
 			type: String,
+			required: true
 		},
 		time: {
 			type: Date,
@@ -13,7 +14,10 @@ const Note = (function(){
 
 	const noteModel = mongoose.model("Note", noteSchema);
 
-	return noteModel;
+	return {
+		model: noteModel,
+		schema: noteSchema
+	};
 
 })();
 
