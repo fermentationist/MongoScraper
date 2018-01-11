@@ -21,6 +21,21 @@ const routes = (function(){
 		res.send("server works!");
 	});
 
+	router.post("/article", function (req, res){
+		const articleData = req.body;
+		console.log('articleData', articleData);
+		if(articleData){
+			const article = new db.Article.model(articleData);
+			article.save(function(err){
+				if(err){
+					console.log("Error writing Article to database.", err);
+				}else{
+					console.log("new Article written to database.");
+				}
+			})
+		}
+	});
+
 	router.post("/note", function (req, res){
 		console.log("req.body:", req.body);
 		if(req.body){

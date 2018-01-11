@@ -16,9 +16,7 @@ const Article = (function(){
 			type: String,
 			required: true
 		},
-		notes: {
-			type: [Note.schema]
-		},
+		notes: [Note.schema],
 
 		photoURL: {
 			type: String

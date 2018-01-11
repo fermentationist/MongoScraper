@@ -1,3 +1,5 @@
+process.stdout.write('\033c');
+
 const express = require("express");
 const exphbs = require("express-handlebars");
 const mongoose = require("mongoose");
