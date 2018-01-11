@@ -22,11 +22,12 @@ const routes = (function(){
 	});
 
 	router.post("/note", function (req, res){
+		console.log("req.body:", req.body);
 		if(req.body){
 			const note = new db.Note.model(req.body);
 			note.save(function(err){
 				if(err){
-					console.log(err);
+					console.log("Error writing note to database.", err);
 				}else{
 					console.log("new Note written to database.");
 				}

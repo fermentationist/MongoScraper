@@ -8,7 +8,7 @@ const Note = (function(){
 		},
 		time: {
 			type: Date,
-			required: Date.now
+			default: Date.now
 		}
 	});
 
