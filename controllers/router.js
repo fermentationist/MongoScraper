@@ -9,17 +9,17 @@ const routes = (function(){
 	router.use(bodyParser.urlencoded({extended: false}));
 	router.use(bodyParser.json());
 
-	router.get("/", function (req, res){
-		res.sendFile(path.join(__dirname, "/../index.html"));
-		// res.send("server works!");
-	});
-
 	router.get("/articles", function (req, res){
 		res.send("server works!");
 	});
 
 	router.get("/notes", function (req, res){
 		res.send("server works!");
+	});
+
+	router.get("/", function (req, res){
+		res.redirect("/index.html");
+		// res.send("server works!");
 	});
 
 	router.post("/article", function (req, res){
@@ -61,6 +61,7 @@ const routes = (function(){
 			})
 		}
 	});
+
 
 	return router;
 })();
