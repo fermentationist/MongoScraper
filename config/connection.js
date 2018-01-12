@@ -1,8 +1,9 @@
-const dbConnection = (function(){
+const db = (function(){
 	const mongoose = require("mongoose");
 	const env = process.env.NODE_ENV || "development";
+	console.log('*env', env)
 	const config = require("./config.json")[env];
-	const db = require("../models");
+	const dbModels = require("../models");
 	const uri = process.env[config.use_env_variable];
 	console.log('uri', uri);
 	mongoose.Promise = Promise;
@@ -15,9 +16,7 @@ const dbConnection = (function(){
 			console.log("Successfully connected to", uri);
 		}
 	});
-
-
-	return db;
+	return dbModels;
 })();
 
-module.exports = dbConnection;
+module.exports = db;
