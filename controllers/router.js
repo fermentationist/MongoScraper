@@ -9,9 +9,9 @@ const routes = (function(){
 	router.use(bodyParser.urlencoded({extended: false}));
 	router.use(bodyParser.json());
 
-	router.get("/", function (req, res){
-		res.send("server works!");
-	});
+	// router.get("/", function (req, res){
+	// 	res.send("server works!");
+	// });
 
 	router.get("/articles", function (req, res){
 		res.send("server works!");
@@ -23,17 +23,28 @@ const routes = (function(){
 
 	router.post("/article", function (req, res){
 		const articleData = req.body;
-		console.log('articleData', articleData);
+		let note;
 		if(articleData){
+			if(articleData.note){
+				const noteData = {content: articleData.note};
+				note = new db.Note.model(noteData);
+				delete articleData.note;
+			}
 			const article = new db.Article.model(articleData);
+			if(note){
+				article.notes.push(note);
+			}
 			article.save(function(err){
 				if(err){
 					console.log("Error writing Article to database.", err);
 				}else{
 					console.log("new Article written to database.");
+					
 				}
-			})
+				return res.status(201).end();
+			});
 		}
+		return res.end();
 	});
 
 	router.post("/note", function (req, res){

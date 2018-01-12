@@ -2,9 +2,8 @@ const Note = (function(){
 	const mongoose = require("mongoose");
 
 	const noteSchema = new mongoose.Schema({
-		body: {
+		content: {
 			type: String,
-			required: true
 		},
 		time: {
 			type: Date,

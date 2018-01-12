@@ -1,7 +1,6 @@
 const Article = (function(){
 	const mongoose = require("mongoose");
 	const Note = require("./Note.js");
-
 	const articleSchema = new mongoose.Schema({
 		title: {
 			type: String,
@@ -23,7 +22,6 @@ const Article = (function(){
 		}
 
 	});
-
 	const articleModel = mongoose.model("Article", articleSchema);
 
 	return {
