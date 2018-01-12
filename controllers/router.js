@@ -9,9 +9,9 @@ const routes = (function(){
 	router.use(bodyParser.urlencoded({extended: false}));
 	router.use(bodyParser.json());
 
-	// router.get("/", function (req, res){
-	// 	res.send("server works!");
-	// });
+	router.get("/", function (req, res){
+		res.send("server works!");
+	});
 
 	router.get("/articles", function (req, res){
 		res.send("server works!");
@@ -47,7 +47,7 @@ const routes = (function(){
 		return res.end();
 	});
 
-	router.post("/note", function (req, res){
+	router.put("/note", function (req, res){
 		console.log("req.body:", req.body);
 		if(req.body){
 			const note = new db.Note.model(req.body);

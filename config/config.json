@@ -3,6 +3,7 @@
     "use_env_variable": "LOCAL_MONGODB_CREDENTIALS"
   },
   "production": {
-    "use_env_variable": "MONGOLAB_URI"
+    "use_env_variable": "MONGOLAB_URI",
+    "database": "mongodb://heroku_rc0164zl"
   }
 }
