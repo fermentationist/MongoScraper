@@ -3,6 +3,7 @@ const db = (function(){
 	const env = process.env.NODE_ENV || "development";
 	console.log('*env', env)
 	const config = require("./config.json")[env];
+	console.log('config', config);
 	const dbModels = require("../models");
 	const uri = process.env[config.use_env_variable];
 	console.log('uri', uri);
