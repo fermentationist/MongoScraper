@@ -6,12 +6,12 @@ $(document).ready(function(){
 		const title = $("#title").val();
 		const body = $("#body").val();
 		const link = $("#link").val().trim();
-		const noteBody = $("#noteBody").val();
+		const noteContent = $("#noteContent").val();
 		const article = {
 			title: title,
 			body: body,
 			link: link,
-			note: noteBody
+			note: noteContent
 		};
 		console.log('article', article);
 		$.post("/article", article).done(function(data){
