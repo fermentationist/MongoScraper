@@ -10,7 +10,8 @@ const routes = (function(){
 	router.use(bodyParser.json());
 
 	router.get("/", function (req, res){
-		res.send("server works!");
+		res.sendFile(path.join(__dirname, "/../index.html"));
+		// res.send("server works!");
 	});
 
 	router.get("/articles", function (req, res){
