@@ -18,7 +18,7 @@ const routes = (function(){
 	});
 
 	router.get("/", function (req, res){
-		res.redirect("/index.html");
+		res.redirect(__dirname + "/../index.html");
 		// res.send("server works!");
 	});
 
