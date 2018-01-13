@@ -22,8 +22,8 @@ const routes = (function(){
 		res.send("server works!");
 	});
 
-	router.get("/notes", function (req, res){
-		res.send("server works!");
+	router.get("/", function (req, res){
+		res.render("index");
 	});
 
 	router.get("/saved", function (req, res){
@@ -37,6 +37,7 @@ const routes = (function(){
 		});
 		res.render("results", {savedArticles});
 	});
+
 
 	router.post("/article", function (req, res){
 		const articleData = req.body;
