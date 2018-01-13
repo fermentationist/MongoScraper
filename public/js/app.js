@@ -19,15 +19,34 @@ $(document).ready(function(){
 		});
 	});
 
-	$("#scrape-button").on("click", function(){
+	$("#scrape-button").on("click", function(event){
+		event.preventDefault();
 		console.log("#scrape-button clicked.");
 		const url = encodeURIComponent($("#url-input").val());
 		console.log('url', url);
-		// $.get("/scrape/" + url).done(function(data){
-		// 	console.log("data =", data);
-		// });
 		$("html").load(`/scrape/${url}`, function (res, status){
 			console.log("loaded");
 		});
 	});
+
+	$(document).on("click", ".save-article", function(event){
+		const articleId = $(this).attr("id");
+		console.log('saveArticle() invoked-', articleId);
+		saveArticle(articleId);
+	});
+
+	const saveArticle = function (articleId){
+		const articleData = {};
+		const index = articleId.slice(13);
+		console.log('index', index);
+		articleData.title = $(`#title-${index}`).text();
+		articleData.link = $(`#link-${index}`).attr("href");
+		articleData.summary = $(`#summary-${index}`).text() || null;
+		articleData.photoURL = $(`#photoURL-${index}`).attr("href") || null;
+		console.log('articleData', articleData);
+		$(`#row-${index}`).remove();
+		$.post("/article", articleData).done(function (req, res){
+			return console.log(res);
+		});
+	}
 });

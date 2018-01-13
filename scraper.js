@@ -7,7 +7,6 @@ const Scraper = (function (){
 	const scrapeUrl = function (url, callback){
 		axios.get(url).then(function(res){
 			const $ = cheerio.load(res.data);
-			console.log('$', $);
 			const articleArray = findArticles($);
 			return callback(articleArray);
 		}).catch(function(err){

@@ -7,7 +7,7 @@ const Article = (function(){
 			trim: true, 
 			required: true
 		},
-		body: {
+		summary: {
 			type: String,
 			required: true
 		},

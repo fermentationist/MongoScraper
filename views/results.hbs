@@ -1,23 +1,29 @@
 
 <div class="container">
 	{{#each articleArray}}
-	<div class="row">
+	<div class="row" id="row-{{@index}}" style="padding: 10px">
 		<div class="col-12">
-			<div class="card">
+			<div class="card bg-dark text-white">
 				<div class="card-body">
-					<a href="{{link}}">
-						<h5 class="card-title">{{title}}</h5>
+					<a href="{{link}}" id="link-{{@index}}">
+						<h5 class="card-title text-white" id="title-{{@index}}">{{title}}</h5>
 					</a>
 					{{#if summary}}
-			    	<p class="card-text">{{summary}}</p>
+			    	<p class="card-text" id="summary-{{@index}}">{{summary}}</p>
 			    	{{/if}}
-			    	<button type="button" id="save-article-{{@index}}" class="btn btn-success">save article</button>
+			    	{{#if photoURL}}
+			    	<a class="card-text" style="color: gray" href="{{photoURL}}" id="photoURL-{{@index}}">{{photoURL}}</a>
+		    		{{/if}}
+			    	
+			    	<button type="button" id="save-article-{{@index}}" class="btn btn-success save-article">save article</button>
 		  		</div>
 			</div>
 		</div>
 	</div>
 	{{/each}}
 </div>
+
+
 
 
 

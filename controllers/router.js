@@ -41,6 +41,7 @@ const routes = (function(){
 
 	router.post("/article", function (req, res){
 		const articleData = req.body;
+		console.log('articleData on back end:', articleData);
 		let note;
 		if(articleData){
 			if(articleData.note){
