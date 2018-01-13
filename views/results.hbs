@@ -1,0 +1,23 @@
+
+<div class="container">
+	{{#each articleArray}}
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-body">
+					<a href="{{link}}">
+						<h5 class="card-title">{{title}}</h5>
+					</a>
+					{{#if summary}}
+			    	<p class="card-text">{{summary}}</p>
+			    	{{/if}}
+			    	<button type="button" id="save-article-{{@index}}" class="btn btn-success">save article</button>
+		  		</div>
+			</div>
+		</div>
+	</div>
+	{{/each}}
+</div>
+
+
+

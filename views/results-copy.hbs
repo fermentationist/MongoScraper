@@ -1,0 +1,26 @@
+*******************************************************
+<div class="container">
+	{{#each articles}}
+	<div class="row">
+		<div class="col-2">
+			{{#if photoURL}}
+				<img src="{{photoURL}}">
+			{{/if}}
+		</div>
+		<div class="col-8">
+			<a href="{{link}}">
+				<h2>{{title}}</h2>
+			</a>
+				{{#if body}}
+			<p>
+				{{body}}
+			</p>
+				{{/if}}
+		</div>
+		<div class="col-2">
+			<button type="button" id="save-article-{{@index}}" class="btn btn-success">Save article</button>
+		</div>
+	</div>
+	{{/each}}
+</div>
+
