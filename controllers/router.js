@@ -69,7 +69,8 @@ const routes = (function(){
 	});
 
 	router.get("/validator", function (req, res){
-		return res.sendFile(path.join(__dirname, "../node_modules/validator/validator.min.js"))
+		console.log("validator attempting to load")
+		return res.sendFile("../node_modules/validator/validator.min.js");
 	});
 
 	router.post("/article", function (req, res){
