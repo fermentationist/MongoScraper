@@ -4,6 +4,7 @@ const routes = (function(){
 	const path = require("path");
 	const bodyParser = require("body-parser");
 	const scrapeUrl = require("../scraper.js").scrapeUrl;
+	
 
 	const router = express.Router();
 
@@ -12,30 +13,54 @@ const routes = (function(){
 
 	router.get("/scrape/:url", function (req, res){
 		const url = req.params.url;
+		const scraping = new db.Scraping.model({url:url});
 		console.log(`scrape request for ${url} received.`);
 		scrapeUrl(url, function (articleArray){
+			console.log('articleArray before', articleArray);
+			articleArray.forEach((articleData) => {
+				let article = new db.Article.model(articleData);
+				console.log('~ article', article);
+				scraping.lastScrape.push(article);
+				console.log('scraping', scraping);
+			});
+			db.Scraping.model.remove({}, function(err){
+				if(err){
+					console.log(err);
+					return res.status(500).end();
+				}
+				scraping.save(function(err, scraping){
+					if(err){
+						console.log(err);
+						return res.status(500).end();
+					}
+				});
+			});
+			console.log('articleArray after', articleArray);
 			return res.render("results", {articleArray});
 		});
 	});
 
-	router.get("/articles", function (req, res){
-		res.send("server works!");
-	});
-
-	router.get("/", function (req, res){
-		res.render("index");
+	router.get(["/","/scraped"], function (req, res){
+		db.Scraping.model.findOne({"id":1}, function(err, data){
+			if(!err){
+				let articleArray = data.lastScrape;
+				console.log('/scraped articleArray[0]', articleArray[0]);
+				return res.render("results", {articleArray});
+			}
+			return res.status(500).send(err);
+		});
 	});
 
 	router.get("/saved", function (req, res){
-		let savedArticles;
-		db.Article.model.find(function (err, articles){
+		let articleArray;
+		db.Article.model.find({},function (err, articles){
 			if(err){
 				return res.status(500).send("Database error occurred-", err);
 			}
 			console.log('articles', articles);
-			savedArticles = articles;
+			articleArray = articles;
 		});
-		res.render("results", {savedArticles});
+		return res.render("results", {articleArray});
 	});
 
 
@@ -49,18 +74,22 @@ const routes = (function(){
 				note = new db.Note.model(noteData);
 				delete articleData.note;
 			}
+			console.log()
 			const article = new db.Article.model(articleData);
 			if(note){
 				article.notes.push(note);
 			}
 			article.save(function(err, article){
 				if(err){
-					return res.status(500).send("Error writing Article to database.", err);
+					return res.status(500).end()//send("Error writing Article to database.", err);
+				}else{
+				
+					return res.status(200).end()//send("new Article written to database-", article);
 				}
-				return res.status(200).send("new Article written to database-", article);
 			});
+		}else{
+			//return res.status(400).end();
 		}
-		return res.status(400).end();
 	});
 
 	router.put("/note/:articleId", function (req, res){

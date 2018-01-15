@@ -9,7 +9,8 @@
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.16.2",
     "express-handlebars": "^3.0.0",
-    "mongoose": "^4.13.9"
+    "mongoose": "^4.13.9",
+    "validator": "^9.2.0"
   },
   "devDependencies": {},
   "scripts": {

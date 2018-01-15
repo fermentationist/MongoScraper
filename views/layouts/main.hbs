@@ -12,13 +12,35 @@
 		  src="https://code.jquery.com/jquery-3.2.1.min.js"
 		  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
 		  crossorigin="anonymous"></script>
+
+	  	<script type="text/javascript" src="js/validator/validator.min.js"></script>
 		<script src="js/app.js"></script>
+
 	</head>
 	<body>
+
+		<!-- Invalid Input Alert Modal -->
+		<div class="modal fade text-white" id="alert-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-sm">
+		  	<div class="modal-header">
+		  		<h5 class="modal-title">Invalid Input</h5>
+				<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		  	</div>
+		    <div class="modal-body">
+		      ...
+		    </div>
+		    <div class="modal-footer">
+		    	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		    </div>
+		  </div>
+		</div>
+
 		<div class="row">
 			<div class="col">
 				<nav class="navbar navbar-expand-lg navbar-light bg-light">
-					  	<a class="navbar-brand" href="#">Article Scraper</a>
+					  	<a class="navbar-brand" href="/">Article Scraper</a>
 					  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					    	<span class="navbar-toggler-icon"></span>
 					  	</button>
@@ -26,10 +48,10 @@
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav mr-auto">
 								<li class="nav-item active">
-									<a class="nav-link" href="#">Scraped <span class="sr-only">(current)</span></a>
+									<a class="nav-link" id="scraped-link" href="/scraped">Scraped <span class="sr-only">(current)</span></a>
 								</li>
 								<li class="nav-item active">
-									<a class="nav-link" href="#">Saved <span class="sr-only">(current)</span></a>
+									<a class="nav-link" id="saved-link" href="#">Saved <span class="sr-only">(current)</span></a>
 								</li>
 							</ul>
 							<form class="form-inline my-2 my-lg-0">
@@ -42,14 +64,15 @@
 		</div>
 		<div class="row justify-content-center">
 			<div class="col-12">
-				<div class="jumbotron">
-			  		<h4 align="center" style="font-size: 333px">*</h4>
+				<div class="jumbotron" style="background-image:url('/images/bg.jpeg')">
+			  		<h2 align="center" style="font-size: 333px">*</h2>
 				</div>
 			</div>
 		</div>
 		{{{body}}}
 		<!-- Optional JavaScript -->
 		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 	</body>

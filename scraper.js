@@ -18,8 +18,8 @@ const Scraper = (function (){
 		let articleArray = [];
 		$("article").each(function (i, articleElement){
 			const article = {};
-			article.title = $(articleElement).find("a").text().trim();
-			article.link = $(articleElement).find("a").attr("href");
+			article.title = $(articleElement).find("a").text().trim() || "Untitled";
+			article.link = $(articleElement).find("a").attr("href") || "Link missing";
 			article.photoURL = $(articleElement).find("img").attr("src") || null;
 			article.summary = $(articleElement).find("p.summary").html() || null;
 			if(article.summary){

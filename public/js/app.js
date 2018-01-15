@@ -19,13 +19,37 @@ $(document).ready(function(){
 		});
 	});
 
+	//Alert modal for invalid input
+	function alertInvalidInput(msg){
+		const modal = $("#alert-modal").modal({
+			show: false
+		})
+		$(".modal-body").text(msg);
+		return modal.modal("show");
+	}
+
+
 	$("#scrape-button").on("click", function(event){
 		event.preventDefault();
 		console.log("#scrape-button clicked.");
-		const url = encodeURIComponent($("#url-input").val());
-		console.log('url', url);
+		let unencodedUrl = $("#url-input").val().trim();
+		console.log('unencodedUrl.substring(0, 6)', unencodedUrl.substring(0, 6));
+		if(!validator.isURL(unencodedUrl)){
+			return alertInvalidInput(`${unencodedUrl} is not a valid URL.`);
+		}
+		if (unencodedUrl.substring(0, 7) !== "http://"){
+				unencodedUrl = `http://${unencodedUrl}`;
+			}
+		const url = encodeURIComponent(unencodedUrl);
+		console.log('url =', url);
 		$("html").load(`/scrape/${url}`, function (res, status){
-			console.log("loaded");
+			console.log(`loading /scrape/${url}`);
+			});
+	});
+
+	$("#saved-link").on("click", function(event){
+		$.get("/saved", function(data){
+			console.log(data);
 		});
 	});
 

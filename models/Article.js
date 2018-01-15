@@ -9,7 +9,6 @@ const Article = (function(){
 		},
 		summary: {
 			type: String,
-			required: true
 		},
 		link: {
 			type: String,
