@@ -43,7 +43,10 @@ const routes = (function(){
 	router.get(["/","/scraped"], function (req, res){
 		db.Scraping.model.findOne({"id":1}, function(err, data){
 			if(!err){
-				let articleArray = data.lastScrape;
+				let articleArray = [{}];
+				if(data){
+					articleArray = data.lastScrape;
+				}
 				console.log('/scraped articleArray[0]', articleArray[0]);
 				return res.render("results", {articleArray});
 			}
@@ -52,17 +55,22 @@ const routes = (function(){
 	});
 
 	router.get("/saved", function (req, res){
+		console.log("/saved called");
 		let articleArray;
 		db.Article.model.find({},function (err, articles){
 			if(err){
 				return res.status(500).send("Database error occurred-", err);
 			}
-			console.log('articles', articles);
-			articleArray = articles;
+			// console.log('{articles}',  {articles});
+			articleArray = articles;	
 		});
+		console.log('articleArray', articleArray)
 		return res.render("results", {articleArray});
 	});
 
+	router.get("/validator", function (req, res){
+		return res.sendFile(path.join(__dirname, "../node_modules/validator/validator.min.js"))
+	});
 
 	router.post("/article", function (req, res){
 		const articleData = req.body;
