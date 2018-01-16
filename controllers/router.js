@@ -11,6 +11,19 @@ const routes = (function(){
 	router.use(bodyParser.urlencoded({extended: false}));
 	router.use(bodyParser.json());
 
+	// Delete Route
+	router.post("/delete/:id", function (req, res){
+		console.log("delete request received on back end");
+		const articleId = req.params.id;
+		console.log('articleId', articleId);
+		db.Article.model.findByIdAndRemove(articleId, function (err, article){
+			if(err){
+				res.status(500).end("delete article failed-", err);
+			}
+			return res.status(200).end(`article- ${article} deleted.`);
+		});
+	});
+
 	router.get("/scrape/:url", function (req, res){
 		const url = req.params.url;
 		const scraping = new db.Scraping.model({url:url});
@@ -43,7 +56,7 @@ const routes = (function(){
 	router.get(["/","/scraped"], function (req, res){
 		db.Scraping.model.findOne({"id":1}, function(err, data){
 			if(!err){
-				let articleArray = [{}];
+				let articleArray = [];
 				if(data){
 					articleArray = data.lastScrape;
 				}
@@ -56,21 +69,17 @@ const routes = (function(){
 
 	router.get("/saved", function (req, res){
 		console.log("/saved called");
-		let articleArray;
 		db.Article.model.find({},function (err, articles){
-			if(err){
-				return res.status(500).send("Database error occurred-", err);
+			if(!err){
+				let articleArray = [];
+				if(articles){
+					articleArray = articles;
+				}
+				console.log('/saved articleArray[0]', articleArray[0]);
+				return res.render("saved", {articleArray});
 			}
-			// console.log('{articles}',  {articles});
-			articleArray = articles;	
+			return res.status(500).send(err);
 		});
-		console.log('articleArray', articleArray)
-		return res.render("results", {articleArray});
-	});
-
-	router.get("/validator", function (req, res){
-		console.log("validator attempting to load")
-		return res.sendFile("../node_modules/validator/validator.min.js");
 	});
 
 	router.post("/article", function (req, res){
@@ -120,15 +129,8 @@ const routes = (function(){
 		});
 	});
 
-	router.delete("/article/:articleId", function (req, res){
-		const articleId = req.params.articleId;
-		db.Article.model.findByIdAndRemove(articleId, function (err, article){
-			if(err){
-				return res.status(500).send("delete article failed-", err);
-			}
-			return res.status(200).send(`article- ${article} deleted.`);
-		});
-	});
+
+
 
 	return router;
 })();

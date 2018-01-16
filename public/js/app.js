@@ -33,7 +33,6 @@ $(document).ready(function(){
 		event.preventDefault();
 		console.log("#scrape-button clicked.");
 		let unencodedUrl = $("#url-input").val().trim();
-		console.log('unencodedUrl.substring(0, 6)', unencodedUrl.substring(0, 6));
 		if(!validator.isURL(unencodedUrl)){
 			return alertInvalidInput(`${unencodedUrl} is not a valid URL.`);
 		}
@@ -57,6 +56,16 @@ $(document).ready(function(){
 		const articleId = $(this).attr("id");
 		console.log('saveArticle() invoked-', articleId);
 		saveArticle(articleId);
+	});
+
+	$(document).on("click", ".delete-article", function(event){
+		console.log("delete button clicked");
+		const articleId = ($(this).attr("id")).slice(15);
+		console.log('delete-', articleId);
+		$.post(`/delete/${articleId}`).done((req,res) => {
+			console.log(res);
+			console.log("^", $(`${articleId}`).empty());
+		});
 	});
 
 	const saveArticle = function (articleId){

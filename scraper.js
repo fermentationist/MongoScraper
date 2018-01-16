@@ -36,11 +36,3 @@ const Scraper = (function (){
 })();
 
 module.exports = Scraper;
-
-// let url = "http://www.nytimes.com"
-// Scraper.scrapeUrl(url, function(articleArray){
-// 	articleArray.forEach(function(article){
-// 		console.log(article);
-// 	});
-// });
-// 	
