@@ -14,10 +14,12 @@
 			    	{{#if photoURL}}
 			    	<a class="card-text" style="color: gray" href="{{photoURL}}" id="photoURL-{{@index}}">{{photoURL}}</a>
 		    		{{/if}}
+		    		<div>
 			    	{{#if notes}}
 						<button type="button" id="notes-{{@index}}" class="btn btn-primary">view notes</button>
 			    	{{/if}}
 			    	<button type="button" id="delete-article-{{_id}}" class="btn btn-danger delete-article">delete article</button>
+			    	</div>
 		  		</div>
 			</div>
 		</div>
