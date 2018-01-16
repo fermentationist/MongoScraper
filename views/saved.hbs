@@ -12,14 +12,16 @@
 			    	<p class="card-text" id="summary-{{@index}}">{{summary}}</p>
 			    	{{/if}}
 			    	{{#if photoURL}}
+			    	<p>
 			    	<a class="card-text" style="color: gray" href="{{photoURL}}" id="photoURL-{{@index}}">{{photoURL}}</a>
+			    	</p>
 		    		{{/if}}
-		    		<div>
+		    		<p>
 			    	{{#if notes}}
 						<button type="button" id="notes-{{@index}}" class="btn btn-primary">view notes</button>
 			    	{{/if}}
 			    	<button type="button" id="delete-article-{{_id}}" class="btn btn-danger delete-article">delete article</button>
-			    	</div>
+			    	</p>
 		  		</div>
 			</div>
 		</div>
