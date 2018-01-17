@@ -64,7 +64,7 @@ $(document).ready(function(){
 		console.log('delete-', articleId);
 		$.post(`/delete/${articleId}`).done((req,res) => {
 			console.log(res);
-			console.log("^", $(`${articleId}`).empty());
+			$(`#${articleId}`).empty();
 		});
 	});
 
