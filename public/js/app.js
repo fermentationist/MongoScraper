@@ -23,11 +23,10 @@ $(document).ready(function(){
 	function alertInvalidInput(msg){
 		const modal = $("#alert-modal").modal({
 			show: false
-		})
+		});
 		$(".modal-body").text(msg);
 		return modal.modal("show");
 	}
-
 
 	$("#scrape-button").on("click", function(event){
 		event.preventDefault();
@@ -67,6 +66,39 @@ $(document).ready(function(){
 			$(`#${articleId}`).empty();
 		});
 	});
+
+	$(document).on("click", ".add-notes", function(event){
+		console.log("add notes button clicked");
+		const articleId = ($(this).attr("id")).slice(9);
+		console.log("this will eventually add notes to article", articleId);
+	});
+
+	$(document).on("click", ".view-notes", function(event){
+		console.log("view notes button clicked");
+		const articleId = ($(this).attr("id")).slice(11);
+		console.log("this will eventually view notes to article", articleId);
+		$.getJSON(`/notes/${articleId}`, function(notesArray){
+			console.log(notesArray);
+			viewNotes(notesArray, articleId);
+		});
+	});
+
+	//Notes modal 
+	function viewNotes(notesArray, articleId){
+		let notesBody = $("<div>").addClass(`notes-${articleId}`);
+		console.log('notesBody', notesBody)
+		notesArray.forEach(function(note, index){
+			let noteDiv = $("<div>").append($("hr"));
+			let time = $("<p>").text(note.time);
+			let content = $("<p>").text(note.content);
+			let deleteButtonStr = `<button type="button" id="delete-note-${note._id}" class="btn btn-danger delete-note">delete note</button>`;
+			let deleteButton = $(deleteButtonStr);
+			noteDiv = noteDiv.append(time).append(content).append(deleteButton);
+			notesBody.append(noteDiv);
+		});
+		$("div.notes-modal-body").empty().append(notesBody);
+		$("#notes-modal").modal("show");
+	}
 
 	const saveArticle = function (articleId){
 		const articleData = {};

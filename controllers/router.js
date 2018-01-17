@@ -82,6 +82,21 @@ const routes = (function(){
 		});
 	});
 
+	router.get("/notes/:articleId", function (req, res){
+		console.log("req.body:", req.body);
+		const articleId = req.params.articleId;
+		console.log(`/notes/${articleId} called` )
+		db.Article.model.findById(articleId, function(err, article){
+			if (err){
+				console.log('err', err);
+				return res.status(500).end;
+			}
+			console.log("notes -", article.notes);
+			res.status(200).json(article.notes);
+
+		});
+	});
+
 	router.post("/article", function (req, res){
 		const articleData = req.body;
 		console.log('articleData on back end:', articleData);
@@ -128,6 +143,8 @@ const routes = (function(){
 			});
 		});
 	});
+
+
 
 
 
