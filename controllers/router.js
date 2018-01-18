@@ -114,43 +114,40 @@ const routes = (function(){
 			}
 			article.save(function(err, article){
 				if(err){
-					return res.status(500).end()//send("Error writing Article to database.", err);
+					return res.status(500).end()
 				}else{
 				
-					return res.status(200).end()//send("new Article written to database-", article);
+					return res.status(200).end()
 				}
 			});
 		}else{
-			//return res.status(400).end();
+			return res.status(400).end();
 		}
 	});
 
-	router.put("/note/:articleId", function (req, res){
+	router.post("/notes/:articleId", function (req, res){
+		console.log('/notes/:articleId called');
 		console.log("req.body:", req.body);
 		const articleId = req.params.articleId;
-		db.Article.model.findById(articleId, function(err, article){
-			if (err){
-				return res.status(500).send("find article failed-", err);
-			}
-			const noteData = {content: req.body.content};
-			const note = new db.Note.model(noteData);
-			article.notes.push(note);
-			article.save(function(err, article){
+		console.log('\narticleId', articleId, '\n');
+		const noteData = {content: req.body.content};
+		const query = {_id: articleId};
+		db.Article.model.findOneAndUpdate(query, { $push: {notes: noteData}}, function (err, article){
 				if(err){
-					return res.status(500).send("save article failed-", err);
+					console.log(err);
+					return res.status(500).end();
 				}
-				return res.status(200).send(article);
-			});
+				return res.status(200).end();
 		});
 	});
-
-
-
-
-
 
 	return router;
 })();
 
 
 module.exports = routes;
+
+
+
+
+

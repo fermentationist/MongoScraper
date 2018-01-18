@@ -31,8 +31,8 @@
 	{{/each}}
 </div>
 
-<!-- Will a modal work here? -->
-<div class="modal fade text-white" id="notes-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<!-- View Notes modal -->
+<div class="modal fade text-white" id="view-notes-modal" tabindex="-1" role="dialog" aria-labelledby="view-notes-modal" aria-hidden="true">
   <div class="modal-dialog modal-lg">
   	<div class="modal-header">
   		<h5 class="modal-title">Notes</h5>
@@ -41,12 +41,36 @@
         </button>
   	</div>
     <div class="modal-body notes-modal-body">
+
     </div>
     <div class="modal-footer">
-    	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    	<button type="button" class="btn btn-secondary add-notes" id="modal-add-note">add note</button>
+    	<button type="button" class="btn btn-secondary" data-dismiss="modal">close</button>
     </div>
   </div>
 </div>
 
+<!-- Add Notes modal -->
+<div class="modal fade text-white" id="add-notes-modal" tabindex="-1" role="dialog" aria-labelledby="add-notes-modal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  	<div class="modal-header">
+  		<h5 class="modal-title">new note</h5>
+		<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+  	</div>
+	<form>
+	    <div class="modal-body add-notes-modal-body">
+			<div class="form-group">
+				<textarea class="form-control" id="new-note-content" rows="4"></textarea>
+			</div>
+	    </div>
+	    <div class="modal-footer">
+	    	<button type="submit" id="submit-note" class="btn btn-secondary">submit</button>
+	    	<button type="button" class="btn btn-secondary" data-dismiss="modal">close</button>
+	    </div>
+	</form>
+  </div>
+</div>
 
 

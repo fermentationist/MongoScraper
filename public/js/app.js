@@ -70,18 +70,52 @@ $(document).ready(function(){
 	$(document).on("click", ".add-notes", function(event){
 		console.log("add notes button clicked");
 		const articleId = ($(this).attr("id")).slice(9);
-		console.log("this will eventually add notes to article", articleId);
+		console.log("add notes to article", articleId);
+		$("#submit-note").data("article-id", articleId);
+		$("#add-notes-modal").modal("show");
+	});
+
+	$(document).on("click", "#submit-note", function(event){
+		event.preventDefault();
+		let currentPosition = $(window).scrollTop;
+		localStorage.setItem("previous-position", currentPosition);
+		console.log("submit new note button clicked");
+		const articleId = $(this).data("article-id");
+		console.log('__articleId__', articleId);
+		const noteContent = $("#new-note-content").val();
+		$("#new-note-content").val("");
+		$("#add-notes-modal").modal("hide");
+		location.reload();
+		let previousPosition = localStorage.getItem("previous-position");
+		if (previousPosition){
+			$(window).scrollTop(previousPosition);
+			localStorage.removeItem("previous-position");
+		}
+		$.post(`/notes/${articleId}`, {content: noteContent}).done(function(req,res){
+				console.log(res);
+		});
 	});
 
 	$(document).on("click", ".view-notes", function(event){
 		console.log("view notes button clicked");
 		const articleId = ($(this).attr("id")).slice(11);
 		console.log("this will eventually view notes to article", articleId);
+		$("#modal-add-note").data("article-id", articleId);
 		$.getJSON(`/notes/${articleId}`, function(notesArray){
 			console.log(notesArray);
 			viewNotes(notesArray, articleId);
 		});
 	});
+
+	$(document).on("click", "#modal-add-note", function(event){
+		console.log("modal add note button clicked");
+		const articleId = $(this).data("article-id");
+		console.log("add notes to article", articleId);
+		$("#submit-note").data("article-id", articleId);
+		$("div.notes-modal-body").empty();
+		$("#view-notes-modal").modal("hide");
+		$("#add-notes-modal").modal("show");
+	})
 
 	//Notes modal 
 	function viewNotes(notesArray, articleId){
@@ -97,7 +131,7 @@ $(document).ready(function(){
 			notesBody.append(noteDiv);
 		});
 		$("div.notes-modal-body").empty().append(notesBody);
-		$("#notes-modal").modal("show");
+		$("#view-notes-modal").modal("show");
 	}
 
 	const saveArticle = function (articleId){

@@ -9,7 +9,6 @@ const Note = (function(){
 			default: Date.now
 		}
 	});
-
 	const noteModel = mongoose.model("Note", noteSchema);
 
 	return {
