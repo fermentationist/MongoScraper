@@ -163,7 +163,7 @@ $(document).ready(function(){
 		console.log('articleData', articleData);
 		$(`#${buttonId}`).removeClass("btn-primary").removeClass("save-article").addClass("btn-success").addClass("saved").text("saved");
 		$.post("/article", articleData).done(function (req, res){
-			$.post(`/delete/scraping/${articleId}`).done(function(){
+			$.post(`/delete/scraping/${articleId}`).done(function(req, res){
 				return res.status(200).end();
 			});
 		});
