@@ -163,8 +163,9 @@ $(document).ready(function(){
 		console.log('articleData', articleData);
 		$(`#${buttonId}`).removeClass("btn-primary").removeClass("save-article").addClass("btn-success").addClass("saved").text("saved");
 		$.post("/article", articleData).done(function (req, res){
-			$.post(`/delete/scraping/${articleId}`).done(() => res.status(200).end()
-				);
+			$.post(`/delete/scraping/${articleId}`).done(function(){
+				return res.status(200).end();
+			});
 		});
 	}
 });
