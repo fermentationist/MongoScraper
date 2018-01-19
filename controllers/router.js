@@ -11,9 +11,9 @@ const routes = (function(){
 	router.use(bodyParser.urlencoded({extended: false}));
 	router.use(bodyParser.json());
 
-	// Delete Route
-	router.post("/delete/:id", function (req, res){
-		console.log("delete request received on back end");
+	// delete article route
+	router.post("/delete/article/:id", function (req, res){
+		console.log("delete article request received on back end");
 		const articleId = req.params.id;
 		console.log('articleId', articleId);
 		db.Article.model.findByIdAndRemove(articleId, function (err, article){
@@ -21,6 +21,27 @@ const routes = (function(){
 				res.status(500).end("delete article failed-", err);
 			}
 			return res.status(200).end(`article- ${article} deleted.`);
+		});
+	});
+
+	// delete note route
+	router.post("/delete/note/:articleId/:noteId", function (req, res){
+		console.log("delete note request received on back end");
+		const noteId = req.params.noteId;
+		const articleId = req.params.articleId;
+		console.log('articleId', articleId);
+		console.log('noteId', noteId);
+		db.Article.model.findById(articleId, function (err, article){
+			if(err){
+				console.log("delete note failed-", err);
+				res.status(500).end;
+			}
+			console.log("article =", article);
+			const note = article.notes.id(noteId);
+			console.log('note', note);
+			article.notes.pull(note);
+			article.save((err,note) => err ? console.log(err) : console.log("successfully deleted note -", note));
+			return res.status(200).end();
 		});
 	});
 

@@ -61,7 +61,7 @@ $(document).ready(function(){
 		console.log("delete button clicked");
 		const articleId = ($(this).attr("id")).slice(15);
 		console.log('delete-', articleId);
-		$.post(`/delete/${articleId}`).done((req,res) => {
+		$.post(`/delete/article/${articleId}`).done((req,res) => {
 			console.log(res);
 			$(`#${articleId}`).empty();
 		});
@@ -115,19 +115,37 @@ $(document).ready(function(){
 		$("div.notes-modal-body").empty();
 		$("#view-notes-modal").modal("hide");
 		$("#add-notes-modal").modal("show");
-	})
+	});
+
+	$(document).on("click", ".delete-note", function(event){
+		const {articleId, noteId} = $(this).data();
+		console.log(`delete: articleId: ${articleId}, noteId: ${noteId}`);
+		$.post(`/delete/note/${articleId}/${noteId}`).done((req,res) => {
+			console.log("back to the front", res);
+			$(`#note-id-${noteId}`).empty();
+		});
+	});
 
 	//Notes modal 
 	function viewNotes(notesArray, articleId){
 		let notesBody = $("<div>").addClass(`notes-${articleId}`);
 		console.log('notesBody', notesBody)
 		notesArray.forEach(function(note, index){
-			let noteDiv = $("<div>").append($("hr"));
+			let noteId = note._id;
+			console.log('noteId', noteId);
+			let noteDiv = $(`<div id="note-id-${noteId}">`);
 			let time = $("<p>").text(note.time);
 			let content = $("<p>").text(note.content);
-			let deleteButtonStr = `<button type="button" id="delete-note-${note._id}" class="btn btn-danger delete-note">delete note</button>`;
-			let deleteButton = $(deleteButtonStr);
-			noteDiv = noteDiv.append(time).append(content).append(deleteButton);
+			let deleteButtonStr = `<button type="button" data="delete-note-${note._id}" class="btn btn-danger delete-note">delete note</button>`;
+			let idObject = {
+				"article-id": articleId,
+				"note-id" : noteId
+			}
+			let deleteButton = $(deleteButtonStr).data(idObject);
+			noteDiv = noteDiv.append(time)
+							 .append(content)
+							 .append(deleteButton)
+							 .append($(`<hr style="color:white">`));
 			notesBody.append(noteDiv);
 		});
 		$("div.notes-modal-body").empty().append(notesBody);
