@@ -2,7 +2,7 @@ $(document).ready(function(){
 	console.log("app.js loaded.");
 
 	$("#submitButton").on("click", function(){
-		console.log("#submitButton clicked.");
+		// console.log("#submitButton clicked.");
 		const title = $("#title").val();
 		const summary = $("#body").val();
 		const link = $("#link").val().trim();
@@ -13,9 +13,9 @@ $(document).ready(function(){
 			link: link,
 			note: noteContent
 		};
-		console.log('article', article);
+		// console.log('article', article);
 		$.post("/article", article).done(function(data){
-			console.log("data =", data);
+			// console.log("data =", data);
 		});
 	});
 
@@ -30,7 +30,7 @@ $(document).ready(function(){
 
 	$("#scrape-button").on("click", function(event){
 		event.preventDefault();
-		console.log("#scrape-button clicked.");
+		// console.log("#scrape-button clicked.");
 		let unencodedUrl = $("#url-input").val().trim();
 		if(!validator.isURL(unencodedUrl)){
 			return alertInvalidInput(`${unencodedUrl} is not a valid URL.`);
@@ -39,15 +39,15 @@ $(document).ready(function(){
 				unencodedUrl = `http://${unencodedUrl}`;
 			}
 		const url = encodeURIComponent(unencodedUrl);
-		console.log('url =', url);
+		// console.log('url =', url);
 		$("html").load(`/scrape/${url}`, function (res, status){
-			console.log(`loading /scrape/${url}`);
+			// console.log(`loading /scrape/${url}`);
 			});
 	});
 
 	$("#saved-link").on("click", function(event){
 		$.get("/saved", function(data){
-			console.log(data);
+			// console.log(data);
 		});
 	});
 
@@ -57,19 +57,19 @@ $(document).ready(function(){
 	});
 
 	$(document).on("click", ".delete-article", function(event){
-		console.log("delete button clicked");
+		// console.log("delete button clicked");
 		const articleId = ($(this).attr("id")).slice(15);
-		console.log('delete-', articleId);
+		// console.log('delete-', articleId);
 		$.post(`/delete/article/${articleId}`).done((req,res) => {
-			console.log(res);
+			// console.log(res);
 			$(`#${articleId}`).empty();
 		});
 	});
 
 	$(document).on("click", ".add-notes", function(event){
-		console.log("add notes button clicked");
+		// console.log("add notes button clicked");
 		const articleId = ($(this).attr("id")).slice(9);
-		console.log("add notes to article", articleId);
+		// console.log("add notes to article", articleId);
 		$("#submit-note").data("article-id", articleId);
 		$("#add-notes-modal").modal("show");
 	});
@@ -78,9 +78,9 @@ $(document).ready(function(){
 		event.preventDefault();
 		let currentPosition = $(window).scrollTop;
 		localStorage.setItem("previous-position", currentPosition);
-		console.log("submit new note button clicked");
+		// console.log("submit new note button clicked");
 		$(this).data("article-id", articleId);
-		console.log('__articleId__', articleId);
+		// console.log('__articleId__', articleId);
 		const noteContent = $("#new-note-content").val();
 		$("#new-note-content").val("");
 		$("#add-notes-modal").modal("hide");
@@ -91,25 +91,25 @@ $(document).ready(function(){
 			localStorage.removeItem("previous-position");
 		}
 		$.post(`/notes/${articleId}`, {content: noteContent}).done(function(req,res){
-				console.log(res);
+				// console.log(res);
 		});
 	});
 
 	$(document).on("click", ".view-notes", function(event){
-		console.log("view notes button clicked");
+		// console.log("view notes button clicked");
 		const articleId = ($(this).attr("id")).slice(11);
-		console.log("this will eventually view notes to article", articleId);
+		// console.log("this will eventually view notes to article", articleId);
 		$("#modal-add-note").data("article-id", articleId);
 		$.getJSON(`/notes/${articleId}`, function(notesArray){
-			console.log(notesArray);
+			// console.log(notesArray);
 			viewNotes(notesArray, articleId);
 		});
 	});
 
 	$(document).on("click", "#modal-add-note", function(event){
-		console.log("modal add note button clicked");
+		// console.log("modal add note button clicked");
 		const articleId = $(this).data("article-id");
-		console.log("add notes to article", articleId);
+		// console.log("add notes to article", articleId);
 		$("#submit-note").data("article-id", articleId);
 		$("div.notes-modal-body").empty();
 		$("#view-notes-modal").modal("hide");
@@ -118,9 +118,9 @@ $(document).ready(function(){
 
 	$(document).on("click", ".delete-note", function(event){
 		const {articleId, noteId} = $(this).data();
-		console.log(`delete: articleId: ${articleId}, noteId: ${noteId}`);
+		// console.log(`delete: articleId: ${articleId}, noteId: ${noteId}`);
 		$.post(`/delete/note/${articleId}/${noteId}`).done((req,res) => {
-			console.log("back to the front", res);
+			// console.log("back to the front", res);
 			$(`#note-id-${noteId}`).empty();
 		});
 	});
@@ -128,10 +128,10 @@ $(document).ready(function(){
 	//Notes modal 
 	function viewNotes(notesArray, articleId){
 		let notesBody = $("<div>").addClass(`notes-${articleId}`);
-		console.log('notesBody', notesBody)
+		// console.log('notesBody', notesBody)
 		notesArray.forEach(function(note, index){
 			let noteId = note._id;
-			console.log('noteId', noteId);
+			// console.log('noteId', noteId);
 			let noteDiv = $(`<div id="note-id-${noteId}">`);
 			let time = $("<p>").text(note.time);
 			let content = $("<p>").text(note.content);
@@ -155,16 +155,16 @@ $(document).ready(function(){
 		const articleId = $(`#${buttonId}`).data("article-id");
 		const articleData = {};
 		const index = buttonId.slice(13);
-		console.log('index', index);
+		// console.log('index', index);
 		articleData.title = $(`#title-${index}`).text();
 		articleData.link = $(`#link-${index}`).attr("href");
 		articleData.summary = $(`#summary-${index}`).text() || null;
 		articleData.photoURL = $(`#photoURL-${index}`).attr("href") || null;
-		console.log('articleData', articleData);
+		// console.log('articleData', articleData);
 		$(`#${buttonId}`).removeClass("btn-primary").removeClass("save-article").addClass("btn-success").addClass("saved").text("saved");
 		$.post("/article", articleData).done(function (req, res){
 			$.post(`/delete/scraping/${articleId}`).done(function(req, res){
-				return res.status(200).end();
+				return console.log();
 			});
 		});
 	}
