@@ -52,9 +52,8 @@ $(document).ready(function(){
 	});
 
 	$(document).on("click", ".save-article", function(event){
-		const articleId = $(this).attr("id");
-		console.log('saveArticle() invoked-', articleId);
-		saveArticle(articleId);
+		const buttonId = $(this).attr("id");
+		saveArticle(buttonId);
 	});
 
 	$(document).on("click", ".delete-article", function(event){
@@ -80,7 +79,7 @@ $(document).ready(function(){
 		let currentPosition = $(window).scrollTop;
 		localStorage.setItem("previous-position", currentPosition);
 		console.log("submit new note button clicked");
-		const articleId = $(this).data("article-id");
+		$(this).data("article-id", articleId);
 		console.log('__articleId__', articleId);
 		const noteContent = $("#new-note-content").val();
 		$("#new-note-content").val("");
@@ -145,25 +144,32 @@ $(document).ready(function(){
 			noteDiv = noteDiv.append(time)
 							 .append(content)
 							 .append(deleteButton)
-							 .append($(`<hr style="color:white">`));
+							 .append($(`<hr>`));
 			notesBody.append(noteDiv);
 		});
 		$("div.notes-modal-body").empty().append(notesBody);
 		$("#view-notes-modal").modal("show");
 	}
 
-	const saveArticle = function (articleId){
+	const saveArticle = function (buttonId){
+		const articleId = $(`#${buttonId}`).data("article-id");
 		const articleData = {};
-		const index = articleId.slice(13);
+		const index = buttonId.slice(13);
 		console.log('index', index);
 		articleData.title = $(`#title-${index}`).text();
 		articleData.link = $(`#link-${index}`).attr("href");
 		articleData.summary = $(`#summary-${index}`).text() || null;
 		articleData.photoURL = $(`#photoURL-${index}`).attr("href") || null;
 		console.log('articleData', articleData);
-		$(`#row-${index}`).remove();
+		$(`#${buttonId}`).removeClass("btn-primary").removeClass("save-article").addClass("btn-success").addClass("saved").text("saved");
 		$.post("/article", articleData).done(function (req, res){
-			return console.log(res);
+			$.post(`/delete/scraping/${articleId}`).done(() => res.status(200).end()
+				);
 		});
 	}
 });
+
+
+
+
+

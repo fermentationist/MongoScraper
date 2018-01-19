@@ -45,6 +45,22 @@ const routes = (function(){
 		});
 	});
 
+	router.post("/delete/scraping/:articleId", function (req, res){
+		console.log("delete scraping request received on back end");
+		const articleId = req.params.articleId;
+		db.Scraping.model.findOne({"id":1}, function (err, scraping){
+			if(err){
+				console.log("delete scraping failed-", err);
+				res.status(500).end;
+			}
+			const article = scraping.lastScrape.id(articleId);
+			scraping.lastScrape.pull(article);
+			scraping.save((err,item) => err ? console.log(err) : console.log("successfully deleted scraping"));
+			return res.status(200).end();
+		});
+	});
+
+
 	router.get("/scrape/:url", function (req, res){
 		const url = req.params.url;
 		const scraping = new db.Scraping.model({url:url});
