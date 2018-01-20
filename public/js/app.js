@@ -79,8 +79,8 @@ $(document).ready(function(){
 		let currentPosition = $(window).scrollTop;
 		localStorage.setItem("previous-position", currentPosition);
 		// console.log("submit new note button clicked");
-		$(this).data("article-id", articleId);
-		// console.log('__articleId__', articleId);
+		const articleId = $(this).data("article-id");
+		console.log('__articleId__', articleId);
 		const noteContent = $("#new-note-content").val();
 		$("#new-note-content").val("");
 		$("#add-notes-modal").modal("hide");
