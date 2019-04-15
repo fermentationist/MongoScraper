@@ -1,6 +1,6 @@
 dev-env
 node_modules/
-
+package-lock.json.old
 
 .DS_Store
 .DS_Store?
