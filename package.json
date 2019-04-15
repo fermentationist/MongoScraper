@@ -13,14 +13,16 @@
     "mongoose": "^4.13.9",
     "validator": "^9.2.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^1.18.11"
+  },
   "engines": {
     "node": "11.14.0",
     "npm": "6.9.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",

@@ -45,6 +45,12 @@ const routes = (function(){
 		});
 	});
 
+	// router.post("/clear", function (req, res){
+	// 	console.log('articleData on back end:', articleData);
+	// 	let note;
+	// 	db.Scraping.model.remove();
+	// });
+
 	router.post("/delete/scraping/:articleId", function (req, res){
 		console.log("delete scraping request received on back end");
 		const articleId = req.params.articleId;
@@ -63,29 +69,30 @@ const routes = (function(){
 
 	router.get("/scrape/:url", function (req, res){
 		const url = req.params.url;
+		console.log("TCL: url", url)
 		const scraping = new db.Scraping.model({url:url});
 		console.log(`scrape request for ${url} received.`);
 		scrapeUrl(url, function (articleArray){
-			console.log('articleArray before', articleArray);
+			// console.log('articleArray before', articleArray);
 			articleArray.forEach((articleData) => {
 				let article = new db.Article.model(articleData);
-				console.log('~ article', article);
+				// console.log('~ article', article);
 				scraping.lastScrape.push(article);
-				console.log('scraping', scraping);
+				// console.log('scraping', scraping);
 			});
 			db.Scraping.model.remove({}, function(err){
 				if(err){
-					console.log(err);
+					// console.log(err);
 					return res.status(500).end();
 				}
 				scraping.save(function(err, scraping){
 					if(err){
-						console.log(err);
+						// console.log(err);
 						return res.status(500).end();
 					}
 				});
 			});
-			console.log('articleArray after', articleArray);
+			// console.log('articleArray after', articleArray);
 			return res.render("results", {articleArray});
 		});
 	});
@@ -97,7 +104,7 @@ const routes = (function(){
 				if(data){
 					articleArray = data.lastScrape;
 				}
-				console.log('/scraped articleArray[0]', articleArray[0]);
+				// console.log('/scraped articleArray[0]', articleArray[0]);
 				return res.render("results", {articleArray});
 			}
 			return res.status(500).send(err);
@@ -112,7 +119,6 @@ const routes = (function(){
 				if(articles){
 					articleArray = articles;
 				}
-				console.log('/saved articleArray[0]', articleArray[0]);
 				return res.render("saved", {articleArray});
 			}
 			return res.status(500).send(err);
@@ -144,7 +150,6 @@ const routes = (function(){
 				note = new db.Note.model(noteData);
 				delete articleData.note;
 			}
-			console.log()
 			const article = new db.Article.model(articleData);
 			if(note){
 				article.notes.push(note);

@@ -6,7 +6,7 @@ const db = (function(){
 	console.log('config.use_env_variable', config.use_env_variable);
 	const dbModels = require("../models");
 	const uri = process.env[config.use_env_variable];
-	console.log('uri', uri);
+	// console.log('uri', uri);
 	mongoose.Promise = Promise;
 	mongoose.connect(uri, {
 		useMongoClient: true
@@ -14,7 +14,7 @@ const db = (function(){
 		if(err){
 			console.log("Error connecting to database:", err);
 		}else{
-			console.log("Successfully connected to", uri);
+			console.log("Successfully connected to database");
 		}
 	});
 	return dbModels;
