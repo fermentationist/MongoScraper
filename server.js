@@ -24,7 +24,7 @@ app.use("/", routes);
 
 app.listen(PORT, function(){
     console.log("\n\n\n\npay no attention to the app listening on port", PORT);
-    wakeUpDyno({url:"https://article-scraper-app.herokuapp.com", startNap: [5, 0, 0, 0], endNap: [10, 0, 0, 0]});
+    wakeUpDyno({url:"https://article-scraper-app.herokuapp.com", startNap: [10, 0, 0, 0], endNap: [5, 0, 0, 0]});
 });
 
 
